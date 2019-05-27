@@ -14,7 +14,7 @@ def model_recogonize_music_of_tiktok_video(maybeUrl):
     pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
 
     url = re.findall(pattern, maybeUrl)
-    if url is not None and 'http://v.douyin.com' in url[0]:
+    if url is not None and len(url) > 0 and 'http://v.douyin.com' in url[0]:
         print(url[0])
         headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0',
@@ -32,13 +32,21 @@ def model_recogonize_music_of_tiktok_video(maybeUrl):
         if videoAddress is not None:
             print(videoAddress[0])
             r = requests.get(videoAddress[0], headers=headers, stream=True)
-            f = open("./cache/tiktok-demo.mp4", "wb")
+            f = open("tiktok-demo.mp4", "wb")
             for chunk in r.iter_content(chunk_size=512):
                 if chunk:
                     f.write(chunk)
-            result = recogonize_music_by_filepath('./cache/tiktok-demo.mp4')
-            print(result)
-            print('success')
+            result = recogonize_music_by_filepath('tiktok-demo.mp4')
+            return result
+        else:
+            print('没有找到视频地址')
+            return None
+
+    else:
+        print('maybeUrl中没有合法的url')
+        return None
+
+
 
 def recognize_music(url):
     """
@@ -46,6 +54,8 @@ def recognize_music(url):
     返回结果list
     :param url: 解析得到的url
     """
+
+
 def extract_music(url):
     """
     通过url获取音频文件并下载到服务器
@@ -53,8 +63,3 @@ def extract_music(url):
     :param url: 解析得到的url
     """
     pass
-
-
-
-model_recogonize_music_of_tiktok_video(
-    '#在抖音，记录美好生活#眼前这一幕，你愿意给这群为迎战跳绳世界杯进行赛前魔鬼训练，为中国🇨🇳争光的孩子们点赞吗？ http://v.douyin.com/Mq6VSc/ 复制此链接，打开【抖音短视频】，直接观看视频！！')

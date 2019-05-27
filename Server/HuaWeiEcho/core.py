@@ -7,6 +7,7 @@ from HuaWeiEcho.configure import *
 
 def phase_json(resJson):
     try:
+        print(resJson)
         metadata = resJson['metadata']
         musics = metadata['music']
         result_list = []
@@ -17,10 +18,12 @@ def phase_json(resJson):
                 dic['score'] = music['score']
                 result_list.append(dic)
         else:
+            print('没有识别出来音乐')
             return None
 
         return result_list
     except:
+        print('解析的时候出现了异常')
         return None
 
 
