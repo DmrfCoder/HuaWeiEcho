@@ -35,6 +35,7 @@ def recogonize_music_of_tiktok_video(request):
     return HttpResponse(url)
 
 
+
 @require_POST
 def recogonize_music_of_upload_video(request):
     """
@@ -43,7 +44,6 @@ def recogonize_music_of_upload_video(request):
     :return:
     """
     return HttpResponse("demo")
-
 
 @require_POST
 def extract_music_of_upload_video(request):
