@@ -20,7 +20,7 @@ from HuaWeiEcho import view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hello/', view.hello),
-    path('retiktok/', view.recogonize_music_of_tiktok_video)
+    path('recognize_music/', view.recognize_music),
+    path('download_file/',view.download_file),
 
 ]

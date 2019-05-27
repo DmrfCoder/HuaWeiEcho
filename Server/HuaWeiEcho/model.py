@@ -40,6 +40,21 @@ def model_recogonize_music_of_tiktok_video(maybeUrl):
             print(result)
             print('success')
 
+def recognize_music(url):
+    """
+    通过url识别音乐
+    返回结果list
+    :param url: 解析得到的url
+    """
+def extract_music(url):
+    """
+    通过url获取音频文件并下载到服务器
+    返回暂存地址
+    :param url: 解析得到的url
+    """
+    pass
+
+
 
 model_recogonize_music_of_tiktok_video(
     '#在抖音，记录美好生活#眼前这一幕，你愿意给这群为迎战跳绳世界杯进行赛前魔鬼训练，为中国🇨🇳争光的孩子们点赞吗？ http://v.douyin.com/Mq6VSc/ 复制此链接，打开【抖音短视频】，直接观看视频！！')

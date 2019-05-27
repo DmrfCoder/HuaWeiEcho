@@ -1,55 +1,56 @@
-from django.http import HttpResponse
-from django.views.decorators.http import require_GET, require_POST
-
-from HuaWeiEcho.model import model_recogonize_music_of_tiktok_video
-
-
-@require_GET
-def hello(request):
-    return HttpResponse("Hello world ! ")
+from django.shortcuts import render
+from django.http import HttpResponse, StreamingHttpResponse
+import json
+from HuaWeiEcho import model
+# Create your views here.
 
 
-@require_GET
-def recogonize_music_of_tiktok_video(request):
-    """
-    识别抖音链接中视频的背景音乐
-    请求格式：GET
-    参数(json格式）：
-        - maybeUrl：可能含有抖音视频链接的字符串，从中提取出抖音链接后进行识别
+def index(request):
+    return render(request,"index.html")
+    pass
 
-    返回值（json格式）：
-        - resultCode：状态码，表示是否识别成功，0代表未识别出背景音乐，代表识别出了背景音乐
-        - resultMusicList：识别结果
 
-    :param request:
-    :return:
-    """
 
-    maybeUrl = request.GET.get('maybeUrl', None)
-    url = "error"
-    if maybeUrl is not None:
-        print(maybeUrl)
-        url = model_recogonize_music_of_tiktok_video(maybeUrl)
+
+
+def recognize_music(request):
+    result = []
+    try:
+        data = json.loads(request.body)
+        raw_url=data.get("url",None)
+
+        url=model.model_recogonize_music_of_tiktok_video(raw_url)
         print(url)
+        #result=model.recognize_music(url)
+    except:
+        result=['error']
+    return HttpResponse(json.dumps(result))
 
-    return HttpResponse(url)
 
+def download_file(request):
 
+    # download_name = request.GET["file"]
+    # the_file_name = str(download_name).split("/")[-1]  # 显示在弹出对话框中的默认的下载文件名
+    try:
+        data = json.loads(request.body)
+        url=data.get("url",None)
+        print(url)
+    except:
+        print('url error')
+    #music_path=model.extract_music(url)
+    music_path='C:/Code/Echo/tempfiles/1.txt'
+    response = StreamingHttpResponse(readFile(music_path))
+    response['Content-Type'] = 'application/octet-stream'
+    return response
 
-@require_POST
-def recogonize_music_of_upload_video(request):
+def readFile(filename, chunk_size=512):
     """
-    识别上传的本地视频中的背景音乐
-    :param request:
-    :return:
+    读取文件流方法
     """
-    return HttpResponse("demo")
-
-@require_POST
-def extract_music_of_upload_video(request):
-    """
-    提取上传视频中的背景音乐
-    :param request:
-    :return:
-    """
-    return HttpResponse("demo")
+    with open(filename, 'rb') as f:
+        while True:
+            c = f.read(chunk_size)
+            if c:
+                yield c
+            else:
+                break
