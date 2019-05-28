@@ -39,7 +39,7 @@ def download_file(request):
     except:
         print('url error')
     #music_path=model.extract_music(url)
-    music_path='C:/Code/Echo/tempfiles/1.txt'
+    music_path='C:/Code/HuaWeiEcho/Server/tempfiles/Piano Sonata No.16 in C , K.545.mp3'
     response = StreamingHttpResponse(readFile(music_path))
     response['Content-Type'] = 'application/octet-stream'
     return response
